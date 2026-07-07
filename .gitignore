@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.env
+
+# Next.js
+.next/
+out/
+node_modules/
+.pnp
+.pnp.js
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Note: We are allowing heart_disease_model.pkl as it's small enough (~4.8MB) for standard Git.

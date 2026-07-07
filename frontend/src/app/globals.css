@@ -1,0 +1,114 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CardioRisk — Design System Tokens (Tailwind v4)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  /* ── Typography ── */
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  /* ── Warm palette (light mode backgrounds & text) ── */
+  --color-warm-50:  #FAFAF8;
+  --color-warm-100: #F3F2EE;
+  --color-warm-200: #E5E3DC;
+  --color-warm-300: #D4D1C7;
+  --color-warm-400: #A9A69C;
+  --color-warm-500: #7D7A72;
+  --color-warm-600: #5C5952;
+  --color-warm-700: #44423C;
+  --color-warm-800: #2E2C28;
+  --color-warm-900: #1D1B18;
+
+  /* ── Charcoal palette (dark mode backgrounds) ── */
+  --color-charcoal-500: #454952;
+  --color-charcoal-600: #363940;
+  --color-charcoal-650: #2F3238;
+  --color-charcoal-700: #282B30;
+  --color-charcoal-750: #232629;
+  --color-charcoal-800: #1C1E21;
+
+  /* ── Sage green (primary accent) ── */
+  --color-sage-50:  #F0F5F1;
+  --color-sage-100: #DCE8DF;
+  --color-sage-200: #B9D1BF;
+  --color-sage-300: #8FB898;
+  --color-sage-400: #6B9E76;
+  --color-sage-500: #5B7F63;
+  --color-sage-600: #4A6750;
+  --color-sage-700: #3D5442;
+  --color-sage-800: #314335;
+  --color-sage-900: #263329;
+
+  /* ── Cerulean (secondary accent) ── */
+  --color-cerulean-50:  #EFF6F8;
+  --color-cerulean-100: #D5E9EF;
+  --color-cerulean-200: #A8D2DF;
+  --color-cerulean-300: #73B6C8;
+  --color-cerulean-400: #4A7C8F;
+  --color-cerulean-500: #3D6675;
+  --color-cerulean-600: #32535F;
+  --color-cerulean-700: #28424C;
+  --color-cerulean-800: #1F343C;
+  --color-cerulean-900: #18282E;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Base styles
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Smooth theme transition on all color properties */
+*, *::before, *::after {
+  transition-property: background-color, border-color, color, fill, stroke, box-shadow;
+  transition-duration: 150ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Override transition for elements that shouldn't animate (like inputs during typing) */
+input:focus, select:focus, textarea:focus {
+  transition-duration: 0ms;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-warm-50);
+  color: var(--color-warm-900);
+}
+
+.dark body {
+  background-color: var(--color-charcoal-800);
+  color: var(--color-warm-50);
+}
+
+/* ── Custom scrollbar (subtle) ── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-warm-300);
+  border-radius: 3px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: var(--color-charcoal-600);
+}
+
+/* ── Fade-in animation ── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+/* ── Select dropdown dark mode styling ── */
+.dark select option {
+  background-color: var(--color-charcoal-700);
+  color: var(--color-warm-50);
+}
