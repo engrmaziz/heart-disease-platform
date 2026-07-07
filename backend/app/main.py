@@ -23,6 +23,21 @@ from fastapi.responses import JSONResponse
 from app.schemas import HeartDiseaseInput, HeartDiseaseResult, HealthCheckResponse
 from app.llm import generate_clinical_insight
 
+# ---------------------------------------------------------------------------
+# Globals & Constants
+# ---------------------------------------------------------------------------
+# Resolve the base directory (one level up from the 'app' folder)
+BASE_DIR = Path(__file__).resolve().parent.parent
+MODEL_PATH = BASE_DIR / "heart_disease_model.pkl"
+
+# Strict column ordering required by the Scikit-Learn Pipeline
+FEATURE_ORDER = [
+    "age", "sex", "cp", "trestbps", "chol", "fbs", 
+    "restecg", "thalach", "exang", "oldpeak", "slope", "ca", "thal"
+]
+# ---------------------------------------------------------------------------
+
+
 try:
     from supabase import create_client, Client
     supabase_url = os.environ.get("SUPABASE_URL", "")
