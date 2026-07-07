@@ -1,9 +1,9 @@
 <div align="center">
   <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/activity.svg" width="80" height="80" alt="Aegis Logo" />
   
-  # Aegis Heart Disease Platform
+  # Heart Disease Platform
   
-  **Enterprise-Grade AI/ML Platform for Cardiovascular Risk Stratification**
+  **AI/ML Platform for Cardiovascular Risk Stratification**
   
   [![Python 3.10](https://img.shields.io/badge/Python-3.10-3776AB.svg?style=flat-square&logo=python&logoColor=white)](https://www.python.org)
   [![Next.js 16](https://img.shields.io/badge/Next.js-16.2-000000.svg?style=flat-square&logo=nextdotjs&logoColor=white)](https://nextjs.org)
