@@ -29,27 +29,27 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-
-      - name: Set up Python 3.10
+      
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
-
-      - name: Install MLOps dependencies
-        run: pip install evidently mlflow supabase pandas python-dotenv scikit-learn==1.6.1
-
-      - name: Run MLflow Tracker
+          
+      - name: Install MLOps Dependencies
+        run: pip install evidently==0.4.33 mlflow==2.14.3 supabase==2.5.1 pandas scikit-learn==1.6.1
+        
+      - name: Run Data Drift Monitor
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: python backend/drift_monitor.py
+        
+      - name: Run MLflow Performance Gate
         env:
           MLFLOW_TRACKING_URI: https://dagshub.com/engrmaziz/heart-disease-platform.mlflow
           MLFLOW_TRACKING_USERNAME: engrmaziz
           MLFLOW_TRACKING_PASSWORD: ${{ secrets.MLFLOW_TRACKING_PASSWORD }}
         run: python backend/mlflow_tracker.py
-
-      - name: Run Drift Monitor
-        env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-        run: python backend/drift_monitor.py
 
   deploy_backend:
     runs-on: ubuntu-latest
