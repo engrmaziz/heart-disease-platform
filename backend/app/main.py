@@ -4,7 +4,7 @@ FastAPI application for Heart Disease Classification.
 Loads a pre-trained sklearn Pipeline (StandardScaler → RandomForestClassifier)
 and exposes a strictly-validated POST /predict endpoint.
 """
-
+import os
 import pickle
 import logging
 from pathlib import Path
@@ -15,12 +15,23 @@ load_dotenv()
 
 import numpy as np
 import pandas as pd
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, status, Depends
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from app.schemas import HeartDiseaseInput, HeartDiseaseResult, HealthCheckResponse
 from app.llm import generate_clinical_insight
+
+try:
+    from supabase import create_client, Client
+    supabase_url = os.environ.get("SUPABASE_URL", "")
+    supabase_key = os.environ.get("SUPABASE_KEY", "")
+    supabase: Client | None = create_client(supabase_url, supabase_key) if supabase_url and supabase_key else None
+except ImportError:
+    supabase = None
+
+security = HTTPBearer()
 
 # ---------------------------------------------------------------------------
 # Logging
@@ -32,15 +43,6 @@ logging.basicConfig(
 logger = logging.getLogger("heart-disease-api")
 
 # ---------------------------------------------------------------------------
-# Model path
-# ---------------------------------------------------------------------------
-MODEL_PATH = Path(__file__).resolve().parent.parent / "heart_disease_model.pkl"
-
-# Feature order MUST match training data
-FEATURE_ORDER: list[str] = [
-    "age", "sex", "cp", "trestbps", "chol", "fbs",
-    "restecg", "thalach", "exang", "oldpeak", "slope", "ca", "thal",
-]
 
 
 # ---------------------------------------------------------------------------

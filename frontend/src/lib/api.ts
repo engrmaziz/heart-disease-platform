@@ -3,6 +3,7 @@
  */
 
 import type { HeartDiseaseInput, PredictionResult, ValidationErrorResponse } from "./types";
+import { createClient } from '@/utils/supabase/client';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 
@@ -23,9 +24,19 @@ export class ApiError extends Error {
 export async function predictHeartDisease(
   input: HeartDiseaseInput,
 ): Promise<PredictionResult> {
+  const supabase = createClient();
+  const { data: { session } } = await supabase.auth.getSession();
+
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+  };
+  if (session?.access_token) {
+    headers["Authorization"] = `Bearer ${session.access_token}`;
+  }
+
   const response = await fetch(`${API_BASE}/predict`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers,
     body: JSON.stringify(input),
   });
 
