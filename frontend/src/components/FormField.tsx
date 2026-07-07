@@ -9,31 +9,27 @@ interface FormFieldProps {
 
 export default function FormField({ field, value, onChange, error }: FormFieldProps) {
   const baseInputClasses = `
-    w-full rounded-lg px-3.5 py-2.5 text-sm
-    bg-warm-50 dark:bg-charcoal-700
-    border transition-all duration-200
-    text-warm-900 dark:text-warm-50
-    placeholder:text-warm-400 dark:placeholder:text-warm-500
-    focus:outline-none focus:ring-2 focus:ring-sage-400/40 dark:focus:ring-sage-500/30 focus:border-sage-400 dark:focus:border-sage-500
-    ${error
-      ? "border-red-400 dark:border-red-500/60"
-      : "border-warm-200 dark:border-charcoal-500 hover:border-warm-300 dark:hover:border-charcoal-400"
-    }
+    w-full bg-transparent px-0 py-2.5 text-sm font-medium
+    border-0 border-b border-zinc-200 dark:border-zinc-800
+    text-zinc-950 dark:text-zinc-50
+    placeholder:text-zinc-300 dark:placeholder:text-zinc-700
+    focus:ring-0 focus:border-zinc-950 dark:focus:border-zinc-50
+    transition-colors duration-200 rounded-none
+    ${error ? "border-red-500 dark:border-red-500" : ""}
   `;
 
   return (
-    <div className="space-y-1.5">
-      {/* Label + tooltip */}
-      <div className="flex items-center justify-between">
+    <div className="relative group pt-1">
+      <div className="flex items-center justify-between mb-1">
         <label
           htmlFor={field.name}
-          className="block text-sm font-medium text-warm-700 dark:text-warm-200"
+          className="block text-[10px] font-semibold tracking-widest uppercase text-zinc-500 dark:text-zinc-400"
         >
           {field.label}
         </label>
         <span
           title={field.tooltip}
-          className="cursor-help text-warm-400 dark:text-warm-500 hover:text-warm-600 dark:hover:text-warm-300 transition-colors"
+          className="cursor-help text-zinc-300 dark:text-zinc-700 hover:text-zinc-950 dark:hover:text-zinc-50 transition-colors"
         >
           <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
             <circle cx="12" cy="12" r="10" />
@@ -42,15 +38,15 @@ export default function FormField({ field, value, onChange, error }: FormFieldPr
         </span>
       </div>
 
-      {/* Input or Select */}
       {field.type === "select" && field.options ? (
         <select
           id={field.name}
           value={value}
           onChange={(e) => onChange(field.name, Number(e.target.value))}
-          className={`${baseInputClasses} cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%236b7280%22%20d%3D%22M2%204l4%204%204-4%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_12px_center] bg-no-repeat pr-8`}
+          className={`${baseInputClasses} cursor-pointer appearance-none pr-6`}
+          style={{ backgroundImage: "none" }} // Remove default arrows for ultra-minimal look
         >
-          <option value="" disabled>Select…</option>
+          <option value="" disabled className="text-zinc-400">Select…</option>
           {field.options.map((opt) => (
             <option key={opt.value} value={opt.value}>
               {opt.label}
@@ -66,19 +62,22 @@ export default function FormField({ field, value, onChange, error }: FormFieldPr
           min={field.min}
           max={field.max}
           step={field.step}
-          placeholder={field.min !== undefined ? `${field.min} – ${field.max}` : ""}
+          placeholder={field.min !== undefined ? `${field.min} - ${field.max}` : ""}
           className={baseInputClasses}
         />
       )}
 
-      {/* Validation error */}
-      {error && (
-        <p className="text-xs text-red-500 dark:text-red-400 flex items-center gap-1 mt-0.5">
-          <svg className="w-3 h-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-            <circle cx="12" cy="12" r="10" />
-            <line x1="12" y1="8" x2="12" y2="12" />
-            <line x1="12" y1="16" x2="12.01" y2="16" />
+      {/* Subtle chevron for select to replace background image */}
+      {field.type === "select" && (
+        <div className="absolute right-0 bottom-3 pointer-events-none text-zinc-300 dark:text-zinc-700 group-hover:text-zinc-950 dark:group-hover:text-zinc-50 transition-colors">
+          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
+            <polyline points="6 9 12 15 18 9" />
           </svg>
+        </div>
+      )}
+
+      {error && (
+        <p className="text-[10px] font-medium tracking-wide uppercase text-red-500 mt-1.5">
           {error}
         </p>
       )}

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
 
 const inter = Inter({
@@ -9,10 +10,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "CardioRisk — Heart Disease Risk Assessment",
-  description:
-    "Enterprise-grade heart disease risk assessment dashboard powered by machine learning. Evaluate cardiac risk factors with clinical-grade prediction models.",
-  keywords: ["heart disease", "risk assessment", "cardiac health", "ML prediction"],
+  title: "CardioRisk — AI Diagnostics",
+  description: "Enterprise-grade heart disease risk assessment powered by machine learning.",
 };
 
 export default function RootLayout({
@@ -22,24 +21,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`} suppressHydrationWarning>
-      <head>
-        {/* Inline script to apply theme before paint to prevent flash */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var t = localStorage.getItem('theme');
-                  if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                    document.documentElement.classList.add('dark');
-                  }
-                } catch(e) {}
-              })();
-            `,
-          }}
-        />
-      </head>
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+      <body className="min-h-full flex flex-col font-sans bg-white dark:bg-black text-zinc-950 dark:text-zinc-50 selection:bg-zinc-200 dark:selection:bg-zinc-800">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
