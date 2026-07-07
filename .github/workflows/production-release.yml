@@ -68,7 +68,7 @@ jobs:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
           pip install -U "huggingface_hub[cli]"
-          hf upload engrmaziz/aegis-heart-disease-api ./backend / --repo-type space --token $HF_TOKEN
+          hf upload EngrAhmedRehan/aegis-heart-disease-api ./backend / --repo-type space --token $HF_TOKEN
   
   deploy_frontend:
     runs-on: ubuntu-latest
