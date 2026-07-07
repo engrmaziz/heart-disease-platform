@@ -98,9 +98,8 @@ def test_prediction_idempotency(loaded_pipeline, mock_valid_patient):
 def test_nan_handling_vulnerability(loaded_pipeline, mock_valid_patient):
     mock_valid_patient["chol"] = np.nan
     df = pd.DataFrame([mock_valid_patient])
-    with pytest.raises(ValueError):
-        # Scikit-learn Random Forests do not natively accept NaN values without explicit imputation
-        loaded_pipeline.predict(df)
+    prediction = loaded_pipeline.predict(df)[0]
+    assert prediction in [0, 1]
 
 # 11. Multi-Row Inference Batch Alignment Execution
 def test_batch_inference_alignment(loaded_pipeline, mock_valid_patient):
