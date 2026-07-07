@@ -134,6 +134,11 @@ def _risk_level(prediction: int, confidence: float) -> str:
 # Endpoints
 # ---------------------------------------------------------------------------
 
+@app.get("/", include_in_schema=False)
+async def root():
+    """Silence Hugging Face health probe 404s."""
+    return {"status": "online", "service": "Aegis Diagnostics API"}
+
 @app.get(
     "/health",
     response_model=HealthCheckResponse,

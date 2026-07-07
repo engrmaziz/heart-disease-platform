@@ -2,9 +2,8 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
-# Generate requirements.txt and install dependencies
-RUN echo "fastapi\nuvicorn\nscikit-learn\npandas\nxgboost\nsupabase\nevidently\ngroq\npython-dotenv" > requirements.txt \
-    && pip install --no-cache-dir -r requirements.txt
+# Install dependencies
+RUN pip install --no-cache-dir fastapi uvicorn scikit-learn==1.6.1 pandas xgboost supabase evidently groq python-dotenv
 
 # Copy the local /backend directory contents into the container's /app directory
 COPY . /app
