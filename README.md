@@ -194,7 +194,7 @@ You must configure the following environment variables before running the applic
 | `SUPABASE_URL` | **Yes** | Your Supabase Project URL. |
 | `SUPABASE_KEY` | **Yes** | Supabase Anon Key (or Service Role Key for background scripts). |
 | `MLFLOW_TRACKING_URI` | No | Full DagsHub MLflow URI (e.g., `https://dagshub.com/...`) |
-| `MLFLOW_TRACKING_USERNAME` | No | DagsHub username. |
+| `MLFLOW_TRACKING_USERNAME` | No | DagsHub Username. |
 | `MLFLOW_TRACKING_PASSWORD` | No | DagsHub access token. |
 
 ### Frontend (`frontend/.env.local`)
